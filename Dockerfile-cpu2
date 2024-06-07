@@ -1,0 +1,24 @@
+FROM samge/ai-env:cpu-ubuntu22.04-python3.10.13-torch2.2.0 as base
+
+ARG PROXY
+ENV http_proxy=${PROXY} https_proxy=${PROXY}
+
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+ENV LD_PRELOAD=/usr/local/lib/python3.10/site-packages/skimage/_shared/../../scikit_image.libs/libgomp-d22c30c5.so.1.0.0
+
+# 重置代理配置
+ENV http_proxy= https_proxy=
+
+
+FROM base as prod
+
+WORKDIR /app
+COPY . .
+
+EXPOSE 8080
+
+VOLUME ["/root/.cache"]
+
+CMD ["python", "iopaint_server.py", "--device=cpu"]

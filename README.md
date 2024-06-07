@@ -16,6 +16,11 @@
     docker build . -t samge/iopaint:cpu -f Dockerfile-cpu --build-arg PROXY=http://192.168.50.48:7890
     ```
 
+- cpu版2
+    ```shell
+    docker build . -t samge/iopaint:cpu2 -f Dockerfile-cpu2 --build-arg PROXY=http://192.168.50.48:7890
+    ```
+
 ### upload
 ```shell
 docker push samge/iopaint:gpu
